@@ -1,0 +1,70 @@
+.main-container {
+    position: relative;
+    width: 400px;
+    top: 100px;
+    /* bottom: 0;
+    left: 0;
+    right: 0; */
+  }
+  
+  legend.form-label {
+    font-size: 1.5rem;
+    color: #3d658f;
+    width: auto;
+    text-align: center;
+  }
+
+  .alert {
+    margin-bottom: 1rem;
+    display: grid;
+    align-items: center;
+    text-align: center;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    letter-spacing: var(--spacing);
+    text-transform: capitalize;
+}
+
+.alert-danger {
+    color: var(--clr-red-dark);
+    background: #f8d7da;
+}
+
+.alert-success {
+    color: var(--clr-green-dark);
+    background: #d4edda;
+}
+  
+  .control-label {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #52657a;
+  }
+  
+  .form-control {
+    font-size: 1rem;
+  }
+  
+  .form-hint {
+    font-size: 0.6rem;
+    line-height: 1.4;
+    margin: -5px auto 5px;
+    color: #999;
+  }
+  .form-hint.error {
+    color: #c00;
+    font-size: 0.8rem;
+  }
+  
+  button.btn {
+    letter-spacing: 1px;
+    font-size: 0.8rem;
+    font-weight: 600;
+  }
+  
+  .password-count {
+    bottom: 16px;
+    right: 10px;
+    font-size: 1rem;
+  }
+  

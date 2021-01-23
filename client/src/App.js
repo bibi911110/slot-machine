@@ -1,12 +1,11 @@
-import Navbar from './components/Navbar';
-import Hero from './components/Hero'
+
+import RegistrationPage from './pages/RegistrationPage';
 
 function App() {
   return (
-    <>
-      <Navbar />
-      <Hero />
-    </>
+    <div className="main-container d-block m-auto">
+      <RegistrationPage />
+  </div>
   );
 }
 

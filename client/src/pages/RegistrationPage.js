@@ -9,10 +9,14 @@ const RegistrationPage = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [formValidated, setFromValidated] = useState(false);
     const [alert, setAlert] = useState({show: false, msg: '', type: ''});
     
 
-    const fieldStateChanged = setField => (value) => setField(value);
+    const fieldStateChanged = (setField, setValidated = setFromValidated) => 
+        (value, error) => 
+            {setField(value); setValidated(!error.length > 0);};
+    
 
     const emailChanged = fieldStateChanged(setEmail);
     const passwordChanged = fieldStateChanged(setPassword);
@@ -23,6 +27,8 @@ const RegistrationPage = () => {
             showAlert(true, 'danger', 'Please enter email')
         } else if (!password) {
             showAlert(true, 'danger', 'Please enter password')
+        } else if (!formValidated) {
+            showAlert(true, 'danger', 'Correct the shown errors');
         }
         console.log(email, password);
     }

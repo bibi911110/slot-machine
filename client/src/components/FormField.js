@@ -31,7 +31,7 @@ const FormField = (props) => {
         setDirty(!dirty || dirty);
         setErrors(newErrors);
         setValue(newValue);
-        onStateChanged(newValue);
+        onStateChanged(newValue, newErrors);
 	}
 
 	

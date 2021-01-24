@@ -6,7 +6,7 @@ import FormField from './FormField';
 const PasswordField = (props) => {
 
 	const validatePasswordStrong = (value) => {
-		if (value.length <= props.thresholdLength) throw new Error("Must be more than more than 7 characters");
+		if (value.length <= props.thresholdLength) throw new Error("Must be of at least 8 characters");
         if (!/.*[A-Z].*/g.test(value)) throw new Error("Must contain at least 1 uppercase character");
         if(!/.*\d.*/g.test(value)) throw new Error("Must conatin at least 1 digit ")
 	};

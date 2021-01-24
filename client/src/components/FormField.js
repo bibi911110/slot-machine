@@ -61,7 +61,7 @@ const FormField = (props) => {
 }
 
 FormField.propTypes = {
-	type: PropTypes.oneOf(["text", "password", "email"]).isRequired,
+	type: PropTypes.oneOf(["text", "password", "email", "date"]).isRequired,
 	label: PropTypes.string.isRequired,
 	fieldId: PropTypes.string.isRequired,
 	placeholder: PropTypes.string.isRequired,

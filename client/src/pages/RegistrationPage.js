@@ -3,34 +3,38 @@ import '../styles/form.css'
 
 import Alert from '../components/Alert';
 import EmailField from '../components/EmailField';
+import DateField from '../components/DateField';
 import PasswordField from '../components/PasswordField';
 
 const RegistrationPage = () => {
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [formValidated, setFromValidated] = useState(false);
+    const [email, setEmail] = useState({value: '', valid: false});
+    const [password, setPassword] = useState({value: '', valid: false});
+    const [dob, setDob] = useState({value:'', valid: false});
     const [alert, setAlert] = useState({show: false, msg: '', type: ''});
     
 
-    const fieldStateChanged = (setField, setValidated = setFromValidated) => 
-        (value, error) => 
-            {setField(value); setValidated(!error.length > 0);};
+    const fieldStateChanged = (setField) => 
+        (value, error) => setField({value, valid: error.length === 0});
     
 
     const emailChanged = fieldStateChanged(setEmail);
     const passwordChanged = fieldStateChanged(setPassword);
+    const dateChanged = fieldStateChanged(setDob);
+    const formValidated = email.valid && dob.valid && password.valid;  
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if(!email) {
-            showAlert(true, 'danger', 'Please enter email')
-        } else if (!password) {
-            showAlert(true, 'danger', 'Please enter password')
+        if(!email.value) {
+            showAlert(true, 'danger', 'Please enter email');
+        } else if (!dob.value) {
+            showAlert(true, 'danger', 'Please enter date of birth');
+        }else if (!password.value) {
+            showAlert(true, 'danger', 'Please enter password');
         } else if (!formValidated) {
             showAlert(true, 'danger', 'Correct the shown errors');
         }
-        console.log(email, password);
+        console.log(email, password, dob);
     }
 
     const showAlert = (show = false, type= '', msg = '') => {
@@ -50,6 +54,7 @@ const RegistrationPage = () => {
 
                 <div className="py-5 border-gray border-top border-bottom border-left border-right">
                     <EmailField fieldId="email" label="Email" placeholder="Enter Email Address" onStateChanged={emailChanged} required />
+                    <DateField fieldId="dob" label="Date of Birth" placeholder="Choose Date of Birth" onStateChanged={dateChanged} required />
                     <PasswordField fieldId="password" label="Password" placeholder="Enter Password" onStateChanged={passwordChanged} thresholdLength={7} minStrength={3} required />
                     <button type="button" onClick={handleSubmit} className="btn btn-primary text-uppercase btn-block px-3">Register</button>
                     <p>Already regisered? Login</p>

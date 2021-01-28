@@ -1,11 +1,13 @@
+import logo from './logo.svg';
+import './App.css';
 
-import RegistrationPage from './pages/RegistrationPage';
+import SlotMachine from './components/SlotMachine';
 
 function App() {
   return (
-    <div className="main-container d-block m-auto">
-      <RegistrationPage />
-  </div>
+    <>
+     <SlotMachine />
+    </>
   );
 }
 

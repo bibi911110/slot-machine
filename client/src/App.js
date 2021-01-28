@@ -1,13 +1,11 @@
-import logo from './logo.svg';
-import './App.css';
-
-import SlotMachine from './components/SlotMachine';
+import HomePage from './pages/HomePage'
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
   return (
-    <>
-     <SlotMachine />
-    </>
+    <BrowserRouter>
+      <HomePage />
+    </BrowserRouter>
   );
 }
 

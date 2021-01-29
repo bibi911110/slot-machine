@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useScrollYPosition } from "react-use-scroll-position";
 import "../assets/styles/navbar.css";
 
@@ -20,10 +20,10 @@ const Navbar = ({ links }) => {
         <nav className="nav-links__container">
           {links &&
             links.map((link, i) => (
-              <NavLink className="nav-link" to={link.href} key={i}>
+              <Link className="nav-link" to={link.href} key={i}>
                 <div className="nav-link__text">{link.title}</div>
                 <div className="nav-link__background" />
-              </NavLink>
+              </Link>
             ))}
         </nav>
 
@@ -38,9 +38,9 @@ const Navbar = ({ links }) => {
 
 Navbar.defaultProps = {
   links: [
-    { title: "Home", href: "#home" },
-    { title: "Login", href: "" },
-    { title: "Register", href: "" }
+    { title: "Home", href: "/" },
+    { title: "Login", href: "/login" },
+    { title: "Register", href: "/register" }
   ]
 };
 

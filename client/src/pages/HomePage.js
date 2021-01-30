@@ -9,9 +9,9 @@ const HomePage = () => {
         <>
             <main>
                 <Hero />
-                <Features />
+                {/* <Features /> */}
             </main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     )
 }

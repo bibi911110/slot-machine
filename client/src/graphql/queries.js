@@ -3,7 +3,9 @@ import { gql, useQuery } from 'apollo-boost';
 export const TOKEN_USER_QUERY = gql`
     query  {
         verifyToken {
-            ...authData
+            email
+            id
+            token
         }
     }
 `

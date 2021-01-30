@@ -1,22 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import "bootstrap/dist/css/bootstrap.min.css";
 import '../assets/styles/form.css'
 import { useMutation } from '@apollo/react-hooks';
+import { toast } from 'react-toastify';
 
-import Alert from '../components/Alert';
 import EmailField from '../components/EmailField';
 import DateField from '../components/DateField';
 import PasswordField from '../components/PasswordField';
 import { useHistory } from 'react-router-dom';
 import { USER_REGISTRATION } from '../graphql/mutations'
+import { AuthContext } from '../context/authContext';
+import { AUTH_TOKEN, USER_ID} from '../constants';
+
 
 const RegistrationPage = () => {
 
     const [email, setEmail] = useState({value: '', valid: false});
     const [password, setPassword] = useState({value: '', valid: false});
     const [dob, setDob] = useState({value:'', valid: false});
-    const [alert, setAlert] = useState({show: false, msg: '', type: ''});
     const [loading, setLoading] = useState(false);
+    const { dispatch } = useContext(AuthContext);
+
 
     let history = useHistory();
     
@@ -32,24 +36,41 @@ const RegistrationPage = () => {
 
     const showError = () => {
         if(!email.value) {
-            showAlert(true, 'danger', 'Please enter email');
+            toast.error('Please enter email')
         } else if (!dob.value) {
-            showAlert(true, 'danger', 'Please enter date of birth');
+            toast.error('Please enter date of birth')
         }else if (!password.value) {
-            showAlert(true, 'danger', 'Please enter password');
+            toast.error('Please enter password')
         } else if (!formValidated) {
-            showAlert(true, 'danger', 'Correct the shown errors');
+            toast.error('Correct the shown errors')
         }
     }
 
     // mutation
     const [register] = useMutation(USER_REGISTRATION, {
         update: ({data}) => {
-            console.log('Registration successful', data)
+            // update cache
+        },
+        onError: (err) => {
+            console.log(err);
+            toast.error(`Failed to create user ${err}`)
+        },
+        onCompleted: ({register}) => {
+            const {email,  token, id} = register;
+            localStorage.setItem(AUTH_TOKEN, token);
+            localStorage.setItem(USER_ID, id);
+            dispatch({
+                type: 'LOGGED_IN_USER',
+                payload: { email, token}
+            });
+            toast.success('Registered Successfully')
+            history.push('/slotmachine')
         }
 
     })
-    const handleSubmit = (e) => {
+
+    
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if(!formValidated) {
             showError();
@@ -57,13 +78,14 @@ const RegistrationPage = () => {
         }
         setLoading(true);
         const values = { email: email.value, password: password.value, dob: dob.value};
-        register({ variables: {input: values }});
+        
+        await register({ variables: {input: values }});
+        
+        
         setLoading(false);
     }
 
-    const showAlert = (show = false, type= '', msg = '') => {
-        setAlert({show, type, msg});
-    }
+    
 
     return (
         <div className="form-container d-table-cell position-relative align-middle">
@@ -73,14 +95,13 @@ const RegistrationPage = () => {
                     <legend className="form-label mb-0">Registration Form</legend>
                         
                 </div>
-                {alert.show && <Alert {...alert} removeAlert={showAlert} />}
-
+                
 
                 <div className="py-5 border-gray border-top border-bottom border-left border-right">
                     <EmailField fieldId="email" label="Email" placeholder="Enter Email Address" onStateChanged={emailChanged} required />
                     <DateField fieldId="dob" label="Date of Birth" placeholder="Choose Date of Birth" onStateChanged={dateChanged} required />
                     <PasswordField fieldId="password" label="Password" placeholder="Enter Password" onStateChanged={passwordChanged} thresholdLength={7} minStrength={3} required />
-                    <button type="button" onClick={handleSubmit} className="btn btn-primary text-uppercase btn-block px-3">Register</button>
+                    <button type="button" onClick={handleSubmit} className="btn btn-primary text-uppercase btn-block px-3" disabled={loading}>{loading ? "Loading" : "Regsiter"}</button>
                     <p>Already regisered? Login</p>
                 </div>
 

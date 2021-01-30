@@ -5,8 +5,11 @@ module.exports = gql`
   scalar DateTime
   type Auth {
     id: ID
-    email: String
-    token: String
+    email: String!
+    token: String!
+    points: Int!
+    attempts: Int!
+    coupons: [String]
   }
   type User {
     id: ID
@@ -33,11 +36,11 @@ module.exports = gql`
 
   type Query {
     getCurrentUser: String!
-    verifyToken: Auth!
+    verifyToken: Auth
   }
   
   type Mutation {
-    register(input: RegistrationInput): Auth!
-    login(input: LoginInput): Auth!
+    register(input: RegistrationInput): Auth
+    login(input: LoginInput): Auth
   }
 `;

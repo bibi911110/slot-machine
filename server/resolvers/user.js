@@ -3,18 +3,20 @@ const User = require('../models/user');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { UserInputError } = require('apollo-server');
+const { authCheck } = require('../helpers/auth')
 require('dotenv').config();
 
 
 const { validateRegisterInput, validateLoginInput } = require('../helpers/validators');
 
 
-function generateToken (user) {
+const generateToken = (user) => {
     return jwt.sign({
         _id: user._id,
         email: user.email
     }, process.env.SECRET_KEY, { expiresIn: '48h'});
 }
+
 
 module.exports = {
     Query: {
@@ -38,7 +40,7 @@ module.exports = {
     Mutation: {
         // login mutation
         async login (parent, args, { req }) {
-            const { email, password, dob} = args.input;
+            const { email, password } = args.input;
             const { valid, errors } = validateLoginInput(email, password);
 
             if (!valid) {
@@ -52,7 +54,7 @@ module.exports = {
                 errors.general = "User not found";
                 throw new UserInputError('User not found', { errors });
             }
-
+    
             // password match
             const match = await bcrypt.compare(password, user.password);
 
@@ -61,16 +63,24 @@ module.exports = {
                 throw new UserInputError('Wrong credentials.', { errors });
             }
 
+            // check if user is elligible to login or not
+            // if user has 0 attempts, 0 points and no coupons, or not active forbid them from login
+            if((user.attempts === 0 && user.points === 0 && user.coupons.length === 0) || !user.active) {
+                throw new Error('This account is deactivated')
+            }
+
             // sending a token back
             const token = generateToken(user);
 
-            const authData = {
+
+            return {
                 id: user._id,
                 email,
-                token
-            }
-
-            return authData;
+                token,
+                points: user.points,
+                attempts: user.attempts,
+                coupons: user.coupons
+            };
             
         },
         // register mutation
@@ -86,9 +96,9 @@ module.exports = {
             // validation for unique email address
             const existedEmail = await User.findOne({ email });
             if (existedEmail) {
-                throw new UserInputError('Email is taken',  {
+                throw new UserInputError('Already registered, login to continue',  {
                     errors: {
-                        email: 'This email is already taken'
+                        email: 'Already registered, login to continue'
                     }
                 })
             }
@@ -101,16 +111,19 @@ module.exports = {
                 dob
             });
 
-            const result = await newUser.save();
+            const user = await newUser.save();
 
-            const token = generateToken(result);
+            const token = generateToken(user);
 
-            const authData = {
-                id: result._id,
+            
+            return {
+                id: user._id,
                 email,
-                token
-            };
-            return authData; 
+                token,
+                points: user.points,
+                attempts: user.attempts,
+                coupons: user.coupons
+            }; 
         }
     }
 }

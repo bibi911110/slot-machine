@@ -2,6 +2,8 @@ import React, { useContext } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import { ApolloClient, HttpLink, InMemoryCache } from '@apollo/client/core';
 import { ApolloProvider } from '@apollo/react-hooks';
+import { ToastContainer } from 'react-toastify';
+import { AuthProvider } from "./context/authContext";
 
 import { setContext } from 'apollo-link-context';
 
@@ -12,11 +14,12 @@ import HomePage from './pages/HomePage'
 import RegistrationPage from './pages/RegistrationPage';
 import LoginPage from './pages/LoginPage';
 import SlotMachine from './components/SlotMachine'
+import PrivateRoute from './components/PrivateRoute';
 
-
+import { AUTH_TOKEN } from './constants';
 
 function App() {
-  // const  user  = useContext(AuthContext);
+  const  user  = useContext(AuthContext);
 
   // create http link
   const httpLink = new HttpLink({
@@ -24,34 +27,37 @@ function App() {
   });
 
   // setContext for authtoken
-  // const authLink = setContext(() => {
-  //   return {
-  //     headers: {
-  //       authtoken: user ? user.token : ''
-  //     }
-  //   }
-  // });
+  const authLink = setContext(() => {
+    return {
+      headers: {
+        authtoken: user ? user.token : localStorage.getItem(AUTH_TOKEN)
+      }
+    }
+  });
 
-  // // concat http and authtoken link
-  // const httpAuthLink = authLink.concat(httpLink);
+  // concat http and authtoken link
+  const httpAuthLink = authLink.concat(httpLink);
 
   // create apollo client
   const client = new ApolloClient({
     cache: new InMemoryCache(),
-    link:httpLink
+    link: httpAuthLink 
   }) 
 
   return (
     <Router>
     <ApolloProvider client={client}>
+      <AuthProvider>
       
       <Navbar />
+      <ToastContainer />
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/register" component={RegistrationPage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/slotmachine" component={SlotMachine} />
+        <PrivateRoute path="/slotmachine" component={SlotMachine} />
       </Switch>
+      </AuthProvider>
       
     </ApolloProvider>
     </Router>

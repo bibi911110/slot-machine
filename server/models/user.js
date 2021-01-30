@@ -14,9 +14,15 @@ const userSchema = new mongoose.Schema(
             min: 8,
             max: 256
         },
+        // is user active?
         active: {
             type: Boolean,
             default: true
+        },
+        // is user logged in?
+        loggedIn: {
+            type: Boolean,
+            default: false
         },
         dob: {
             type: Date,

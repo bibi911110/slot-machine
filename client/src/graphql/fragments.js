@@ -5,5 +5,8 @@ export const AUTH_INFO = gql`
         id
         email
         token
+        points
+        attempts
+        coupons
     }
-`
+`;

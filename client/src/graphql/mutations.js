@@ -12,10 +12,9 @@ export const USER_REGISTRATION = gql`
 
 export const USER_LOGIN = gql`
     mutation login($input: LoginInput!) {
-        register(input: $input) {
-            id
-            email
-            token
+        login(input: $input) {
+            ...authInfo
         }
     }
+    ${AUTH_INFO}
 `

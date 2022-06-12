@@ -5,16 +5,16 @@
     /* bottom: 0;
     left: 0;
     right: 0; */
-  }
-  
-  legend.form-label {
+}
+
+legend.form-label {
     font-size: 1.5rem;
     color: #3d658f;
     width: auto;
     text-align: center;
-  }
+}
 
-  .alert {
+.alert {
     margin-bottom: 1rem;
     display: grid;
     align-items: center;
@@ -34,37 +34,36 @@
     color: var(--clr-green-dark);
     background: #d4edda;
 }
-  
-  .control-label {
+
+.control-label {
     font-size: 0.8rem;
     font-weight: bold;
     color: #52657a;
-  }
-  
-  .form-control {
+}
+
+.form-control {
     font-size: 1rem;
-  }
-  
-  .form-hint {
+}
+
+.form-hint {
     font-size: 0.6rem;
     line-height: 1.4;
     margin: -5px auto 5px;
     color: #999;
-  }
-  .form-hint.error {
+}
+.form-hint.error {
     color: #c00;
     font-size: 0.8rem;
-  }
-  
-  button.btn {
+}
+
+button.btn {
     letter-spacing: 1px;
     font-size: 0.8rem;
     font-weight: 600;
-  }
-  
-  .password-count {
+}
+
+.password-count {
     bottom: 16px;
     right: 10px;
     font-size: 1rem;
-  }
-  
+}

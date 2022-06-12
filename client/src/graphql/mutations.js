@@ -8,7 +8,7 @@ export const USER_REGISTRATION = gql`
         }
     }
     ${AUTH_INFO}
-`
+`;
 
 export const USER_LOGIN = gql`
     mutation login($input: LoginInput!) {
@@ -17,4 +17,4 @@ export const USER_LOGIN = gql`
         }
     }
     ${AUTH_INFO}
-`
+`;

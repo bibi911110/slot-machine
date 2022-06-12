@@ -13,9 +13,7 @@ const PrivateRoute = ({ ...rest }) => {
         }
     }, [state.user]);
 
-    const renderContent = () => (
-        <Route {...rest} />
-    );
+    const renderContent = () => <Route {...rest} />;
 
     return user ? renderContent() : <LoadingToRedirect path="/" />;
 };

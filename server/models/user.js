@@ -6,42 +6,41 @@ const userSchema = new mongoose.Schema(
             type: String,
             required: [true, 'Email required'],
             index: true,
-            unique: [true, 'User already exists']
+            unique: [true, 'User already exists'],
         },
         password: {
             type: String,
             required: [true, 'Password required'],
             min: 8,
-            max: 256
+            max: 256,
         },
         // is user active?
         active: {
             type: Boolean,
-            default: true
+            default: true,
         },
         // is user logged in?
         loggedIn: {
             type: Boolean,
-            default: false
+            default: false,
         },
         dob: {
             type: Date,
-            required: [true, 'Date of Birth required']
+            required: [true, 'Date of Birth required'],
         },
         attempts: {
             type: Number,
-            default: 50
+            default: 50,
         },
         points: {
             type: Number,
-            default: 0
+            default: 0,
         },
         coupons: {
-            type: [String]
-        }
+            type: [String],
+        },
     },
     { timestamps: true }
 );
 
-
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);

@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");// middleware to validate token
+const jwt = require('jsonwebtoken'); // middleware to validate token
 
 exports.authCheck = async (req) => {
-    const token = req.header("authtoken");
-    if (!token) throw new Error('No token found') 
-  
+    const token = req.header('authtoken');
+    if (!token) throw new Error('No token found');
+
     try {
         const currentUser = await jwt.verify(token, process.env.TOKEN_SECRET);
         console.log('CURRENT USER', currentUser);
@@ -15,14 +15,14 @@ exports.authCheck = async (req) => {
 };
 
 exports.authCheckMiddleware = (req, res, next) => {
-    const token = req.header("authtoken");
-    if (!token) return res.status(401).json({ error: "Access denied" });  
-  
+    const token = req.header('authtoken');
+    if (!token) return res.status(401).json({ error: 'Access denied' });
+
     try {
         const verified = jwt.verify(token, process.env.TOKEN_SECRET);
         req.user = verified;
         next(); // to continue the flow
     } catch (err) {
-        res.status(400).json({ error: "Token is not valid" });
+        res.status(400).json({ error: 'Token is not valid' });
     }
 };

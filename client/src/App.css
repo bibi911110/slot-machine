@@ -1,28 +1,31 @@
-@media screen and (max-width: 767px) { 
-    .app { width: 100%; margin: 0; }
+@media screen and (max-width: 767px) {
+    .app {
+        width: 100%;
+        margin: 0;
+    }
 }
 
 /*section */
 
 .section {
-  padding: 5rem 0;
+    padding: 5rem 0;
 }
 
 .section-center {
-  width: 90vw;
-  margin: 0 auto;
-  max-width: 35rem;
-  margin-top: 8rem;
+    width: 90vw;
+    margin: 0 auto;
+    max-width: 35rem;
+    margin-top: 8rem;
 }
 
 @media screen and (min-width: 992px) {
-  .section-center {
-    width: 95vw;
-  }
+    .section-center {
+        width: 95vw;
+    }
 }
 
 main {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { ApolloServer} = require('apollo-server-express');
+const { ApolloServer } = require('apollo-server-express');
 const http = require('http');
 const path = require('path');
 const mongoose = require('mongoose');
@@ -8,7 +8,6 @@ require('dotenv').config();
 const { authCheckMiddleware } = require('./helpers/auth');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
 
 // express server
 const app = express();
@@ -20,7 +19,7 @@ const db = async () => {
             useNewUrlParser: require,
             useUnifiedTopology: true,
             useCreateIndex: true,
-            useFindAndModify: false
+            useFindAndModify: false,
         });
         console.log('DB Connected');
     } catch (error) {
@@ -33,7 +32,7 @@ db();
 
 // middlewares
 app.use(cors());
-app.use(bodyParser.json({kimit: '5mb'}));
+app.use(bodyParser.json({ kimit: '5mb' }));
 
 // typeDefs
 const typeDefs = mergeTypes(fileLoader(path.join(__dirname, './typeDefs')));
@@ -44,7 +43,7 @@ const resolvers = mergeResolvers(fileLoader(path.join(__dirname, './resolvers'))
 const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
-    context: ({ req }) => ({ req })
+    context: ({ req }) => ({ req }),
 });
 
 // applyMiddleware method connects ApolloServer to a specific
@@ -58,7 +57,7 @@ apolloServer.installSubscriptionHandlers(httpserver);
 // rest endpoint
 
 // port
-httpserver.listen(process.env.PORT, function() {
+httpserver.listen(process.env.PORT, function () {
     console.log(`server is ready at http://localhost:${process.env.PORT}`);
     console.log(`graphql server is ready at http://localhost:${process.env.PORT}${apolloServer.graphqlPath}`);
     console.log(`subscription is ready at http://localhost:${process.env.PORT}${apolloServer.subscriptionsPath}`);
